@@ -399,7 +399,7 @@
         "fuel_type": "Gasoline",
         "mileage": "32 MPG",
         "rental_price": 38,
-        "quantity": 6,
+        "quantity": 4,
         "description": "The Toyota Corolla Touring Sports is a compact wagon that offers ample cargo space while maintaining the fuel efficiency and driving dynamics of the Corolla sedan. With seating for up to 5 passengers, it's a practical choice for families or those who need extra versatility."
     },
     {
@@ -477,7 +477,7 @@
         "fuel_type": "Gasoline",
         "mileage": "28 MPG",
         "rental_price": 30,
-        "quantity": 3,
+        "quantity": 2,
         "description": "The Nissan Lafesta is a compact wagon that offers a spacious interior and a comfortable ride. With seating for up to 5 passengers and ample cargo space, it's a practical choice for families or those who need extra versatility."
     },
     {

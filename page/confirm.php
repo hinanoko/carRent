@@ -7,6 +7,7 @@
 <body>
     <div>
         <p>this is the confirm page</p>
+        <img src="../pictures/confirm.jpg"></img>
     </div>
     <?php
     // page/cart.php
