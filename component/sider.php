@@ -304,9 +304,8 @@
                 var searchInputValue = searchInput.value.trim();
                 if (searchInputValue !== '') {
                     console.log("Search input value: " + searchInputValue);
-                    updateRecentSearches(searchInputValue); // Update and display recent searches
+                    updateRecentSearches(searchInputValue);
 
-                    // 使用 AJAX 发送 POST 请求到 search_car.php
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", "../controller/search_car.php", true);
                     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -314,6 +313,7 @@
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
                                 var response = JSON.parse(xhr.responseText);
+                                console.log(response); // 调试输出
                                 displaySearchResults(response);
                             } else {
                                 console.error("Error:", xhr.statusText);
@@ -399,29 +399,10 @@
             }
 
             function displaySearchResults(results) {
-                var carInfoContainer = document.getElementById('carInfoContainer');
-                carInfoContainer.innerHTML = '';
-
-                if (results.length > 0) {
-                    results.forEach(car => {
-                        var carInfoDiv = document.createElement('div');
-                        carInfoDiv.classList.add('car-info');
-
-                        var carInfoHtml = `
-                            <h2>${car.make} ${car.model} (${car.year})</h2>
-                            <p>Type: ${car.type}</p>
-                            <p>Seats: ${car.seats}</p>
-                            <p>Fuel Type: ${car.fuel_type}</p>
-                            <p>Mileage: ${car.mileage}</p>
-                            <p>Rental Price: $${car.rental_price}/day</p>
-                            <p>Description: ${car.description}</p>
-                        `;
-                        carInfoDiv.innerHTML = carInfoHtml;
-                        carInfoContainer.appendChild(carInfoDiv);
-                    });
-                } else {
-                    carInfoContainer.innerHTML = '<p>No cars found matching your search criteria.</p>';
-                }
+                // 将搜索结果传递给mainPanel中的页面
+                var params = new URLSearchParams();
+                params.append('results', JSON.stringify(results));
+                parent.document.getElementById("mainPanel").src = "component/searchMain.php?" + params.toString();
             }
         });
     </script>
