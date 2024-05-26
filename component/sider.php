@@ -127,6 +127,38 @@
         .sidebar-header {
             height: 20px;
         }
+
+        .recent-searches {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1;
+            width: 200px;
+        }
+
+        .recent-searches-header {
+            padding: 8px 12px;
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .recent-searches ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recent-searches li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .recent-searches li:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 
 </head>
@@ -193,6 +225,7 @@
     <div id="carInfoContainer"></div>
 
     <script>
+        var recentSearches = []; // Initialize an empty array
         document.addEventListener('DOMContentLoaded', function() {
             var mainButton = document.querySelector('.mainButton');
             var sidebar = document.querySelector('.sidebar');
@@ -263,17 +296,135 @@
             });
 
             // 搜索功能的事件监听器
+            var searchInput = document.getElementById('searchInput');
             var searchBtn = document.getElementById('searchBtn');
+            var recentSearchesContainer;
+
             searchBtn.addEventListener('click', function() {
-                var searchInput = document.getElementById('searchInput').value;
-                console.log("Search input value: " + searchInput);
-                var params = new URLSearchParams();
-                params.append('info', searchInput);
-                parent.document.getElementById("mainPanel").src = "component/main.php?" + params.toString();
+                var searchInputValue = searchInput.value.trim();
+                if (searchInputValue !== '') {
+                    console.log("Search input value: " + searchInputValue);
+                    updateRecentSearches(searchInputValue); // Update and display recent searches
+
+                    // 使用 AJAX 发送 POST 请求到 search_car.php
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "../controller/search_car.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                var response = JSON.parse(xhr.responseText);
+                                displaySearchResults(response);
+                            } else {
+                                console.error("Error:", xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.send(JSON.stringify({
+                        query: searchInputValue
+                    }));
+                }
             });
+
+            searchInput.addEventListener('focus', function() {
+                displayRecentSearches();
+            });
+
+            searchInput.addEventListener('input', function() {
+                if (searchInput.value.trim() === '') {
+                    displayRecentSearches();
+                } else {
+                    if (recentSearchesContainer) {
+                        recentSearchesContainer.style.display = 'none';
+                    }
+                }
+            });
+
+            searchInput.addEventListener('blur', function() {
+                setTimeout(function() { // Delay to allow click event on recent searches
+                    if (recentSearchesContainer) {
+                        recentSearchesContainer.style.display = 'none';
+                    }
+                }, 200);
+            });
+
+            function displayRecentSearches() {
+                if (recentSearchesContainer) {
+                    recentSearchesContainer.remove();
+                }
+
+                recentSearchesContainer = document.createElement('div');
+                recentSearchesContainer.classList.add('recent-searches');
+
+                var recentSearchesHeader = document.createElement('div');
+                recentSearchesHeader.classList.add('recent-searches-header');
+                recentSearchesHeader.textContent = 'Recent Searches';
+                recentSearchesContainer.appendChild(recentSearchesHeader);
+
+                if (recentSearches.length > 0) {
+                    var recentSearchesList = document.createElement('ul');
+                    recentSearches.forEach(function(keyword) {
+                        var listItem = document.createElement('li');
+                        listItem.textContent = keyword;
+                        listItem.addEventListener('click', function() {
+                            searchInput.value = keyword;
+                            recentSearchesContainer.remove();
+                        });
+                        recentSearchesList.appendChild(listItem);
+                    });
+                    recentSearchesContainer.appendChild(recentSearchesList);
+                } else {
+                    var noRecentSearches = document.createElement('div');
+                    noRecentSearches.textContent = 'No recent searches';
+                    recentSearchesContainer.appendChild(noRecentSearches);
+                }
+
+                document.body.appendChild(recentSearchesContainer);
+                positionRecentSearchesContainer();
+            }
+
+            function positionRecentSearchesContainer() {
+                var searchInputRect = searchInput.getBoundingClientRect();
+                recentSearchesContainer.style.left = searchInputRect.left + 'px';
+                recentSearchesContainer.style.top = (searchInputRect.bottom + window.scrollY - 1) + 'px'; // Adjusted to be closer
+            }
+
+            function updateRecentSearches(searchInputValue) {
+                if (!recentSearches.includes(searchInputValue)) {
+                    recentSearches.push(searchInputValue);
+                    if (recentSearches.length > 5) { // Limit the number of recent searches
+                        recentSearches.shift();
+                    }
+                }
+            }
+
+            function displaySearchResults(results) {
+                var carInfoContainer = document.getElementById('carInfoContainer');
+                carInfoContainer.innerHTML = '';
+
+                if (results.length > 0) {
+                    results.forEach(car => {
+                        var carInfoDiv = document.createElement('div');
+                        carInfoDiv.classList.add('car-info');
+
+                        var carInfoHtml = `
+                            <h2>${car.make} ${car.model} (${car.year})</h2>
+                            <p>Type: ${car.type}</p>
+                            <p>Seats: ${car.seats}</p>
+                            <p>Fuel Type: ${car.fuel_type}</p>
+                            <p>Mileage: ${car.mileage}</p>
+                            <p>Rental Price: $${car.rental_price}/day</p>
+                            <p>Description: ${car.description}</p>
+                        `;
+                        carInfoDiv.innerHTML = carInfoHtml;
+                        carInfoContainer.appendChild(carInfoDiv);
+                    });
+                } else {
+                    carInfoContainer.innerHTML = '<p>No cars found matching your search criteria.</p>';
+                }
+            }
         });
     </script>
-
 </body>
 
 </html>
