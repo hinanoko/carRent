@@ -13,4 +13,8 @@ $searchResults = array_filter($cars, function ($car) use ($query) {
         strpos(strtolower($car['type']), $query) !== false;
 });
 
+if (empty($searchResults)) {
+    $searchResults = array_slice($cars, 0, 5);
+}
+
 echo json_encode(array_values($searchResults));

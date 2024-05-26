@@ -291,7 +291,7 @@
 
                     var params = new URLSearchParams();
                     params.append('info', info);
-                    parent.document.getElementById("mainPanel").src = "component/main.php?" + params.toString();
+                    parent.document.getElementById("mainPanel").src = "../component/main.php?" + params.toString();
                 });
             });
 
@@ -303,27 +303,25 @@
             searchBtn.addEventListener('click', function() {
                 var searchInputValue = searchInput.value.trim();
                 if (searchInputValue !== '') {
-                    console.log("Search input value: " + searchInputValue);
                     updateRecentSearches(searchInputValue);
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "../controller/search_car.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                var response = JSON.parse(xhr.responseText);
-                                console.log(response); // 调试输出
-                                displaySearchResults(response);
-                            } else {
-                                console.error("Error:", xhr.statusText);
-                            }
-                        }
-                    };
-                    xhr.send(JSON.stringify({
-                        query: searchInputValue
-                    }));
                 }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "../controller/search_car.php", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            displaySearchResults(response);
+                        } else {
+                            console.error("Error:", xhr.statusText);
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify({
+                    query: searchInputValue
+                }));
             });
 
             searchInput.addEventListener('focus', function() {
@@ -392,17 +390,16 @@
             function updateRecentSearches(searchInputValue) {
                 if (!recentSearches.includes(searchInputValue)) {
                     recentSearches.push(searchInputValue);
-                    if (recentSearches.length > 5) { // Limit the number of recent searches
+                    if (recentSearches.length > 5) {
                         recentSearches.shift();
                     }
                 }
             }
 
             function displaySearchResults(results) {
-                // 将搜索结果传递给mainPanel中的页面
                 var params = new URLSearchParams();
                 params.append('results', JSON.stringify(results));
-                parent.document.getElementById("mainPanel").src = "component/searchMain.php?" + params.toString();
+                parent.document.getElementById("mainPanel").src = "../component/searchMain.php?" + params.toString();
             }
         });
     </script>

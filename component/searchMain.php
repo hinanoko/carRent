@@ -19,13 +19,11 @@
 
         .product-image {
             width: 200px;
-            /* 设置固定宽度 */
             height: 150px;
         }
 
         .text {
             margin-top: 20px;
-            /* 确保文字不紧贴图片 */
             font-size: 24px;
             font-family: Arial, sans-serif;
         }
@@ -85,7 +83,6 @@
 
                     if (number > 0) {
                         console.log("....................");
-                        // 发送第一个 AJAX 请求
                         var xhr1 = new XMLHttpRequest();
                         xhr1.open('POST', '../controller/save_uncompleted.php', true);
                         xhr1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -94,7 +91,6 @@
                             if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
                                 console.log(xhr1.responseText);
 
-                                // 发送第二个 AJAX 请求
                                 var xhr2 = new XMLHttpRequest();
                                 xhr2.open('POST', '../controller/update_quantity.php', true);
                                 xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
