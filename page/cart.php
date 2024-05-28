@@ -4,21 +4,26 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* 整体样式 */
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            color: #333;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            /* 头部容器圆角 */
         }
 
+        /* 头部样式 */
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
+            padding: 10px 20px;
             background-color: hsl(158, 71%, 28%);
             color: #fff;
+            border-radius: 10px;
+            /* 头部容器圆角 */
         }
 
         .header-left {
@@ -32,35 +37,90 @@
             margin-right: 10px;
         }
 
-        .store-name {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-        }
-
         .store-name h1 {
             font-family: 'Righteous', cursive;
             font-size: 36px;
             margin: 0;
         }
 
+        /* 车辆详情样式 */
         .car-details {
             padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        .car-details h3 {
+            margin-top: 0;
+        }
+
+        .car-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* 表单样式 */
+        #rentalForm {
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        #rentalForm label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #rentalForm input,
+        #rentalForm select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
         }
 
         #quantityContainer {
             display: flex;
             align-items: center;
+            margin-bottom: 10px;
         }
 
         #quantityContainer button {
             padding: 5px 10px;
-            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         #quantityDisplay {
             margin: 0 10px;
             font-size: 16px;
+        }
+
+        #rentalForm button[type="button"] {
+            padding: 8px 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -245,6 +305,7 @@
                         });
                     } else {
                         console.log("?");
+                        alert("the store don't have enough car")
                     }
                 },
                 error: function(xhr, status, error) {

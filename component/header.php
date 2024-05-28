@@ -12,9 +12,13 @@
             background-color: hsl(158, 71%, 28%);
             color: #fff;
             font-family: Arial, sans-serif;
+            border-radius: 10px;
+            /* 头部容器圆角 */
         }
 
         .header-container {
+            border-radius: 10px;
+            /* 头部容器圆角 */
             display: flex;
             justify-content: space-between;
             align-items: center;

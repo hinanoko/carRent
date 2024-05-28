@@ -178,7 +178,7 @@
         "fuel_type": "Gasoline",
         "mileage": "31 MPG",
         "rental_price": 58,
-        "quantity": 2,
+        "quantity": 1,
         "description": "The Nissan Altima SR is a sporty and dynamic sedan designed for performance and style. With seating for up to 5 passengers, it offers good fuel efficiency, achieving around 31 MPG. Experience the thrill of driving with the Altima SR."
     },
     {
@@ -347,7 +347,7 @@
         "fuel_type": "Gasoline",
         "mileage": "24 MPG",
         "rental_price": 55,
-        "quantity": 5,
+        "quantity": 4,
         "description": "The Toyota Highlander is a mid-size SUV that offers a roomy interior with seating for up to 7 passengers. It's a practical choice for families, with ample cargo space and a comfortable ride."
     },
     {
@@ -542,7 +542,7 @@
         "fuel_type": "Gasoline",
         "mileage": "26 MPG",
         "rental_price": 32,
-        "quantity": 2,
+        "quantity": 0,
         "description": "The Honda Stream is a compact wagon that combines a sleek design with a versatile interior. With seating for up to 5 passengers and ample cargo space, it's a stylish and practical choice for those who need extra room."
     },
     {
