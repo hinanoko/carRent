@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -8,13 +9,40 @@
             padding: 0;
             overflow-x: hidden;
             /* 禁止水平滚动 */
+            background-color: hsl(158, 71%, 28%);
+            color: #fff;
+            font-family: Arial, sans-serif;
         }
 
-        /* 添加样式以便按钮在页面最右侧固定位置 */
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 10px;
+            background-color: hsl(158, 71%, 28%);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .store-name {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .store-name h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 36px;
+            margin: 0;
         }
 
         .header-right {
@@ -43,17 +71,6 @@
             background-color: #0056b3;
         }
 
-        .store-name {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .store-name h1 {
-            font-family: 'Righteous', cursive;
-            font-size: 36px;
-        }
-
         .car-button {
             background-image: url('../icons/transparent_car.png');
             padding-top: 30px;
@@ -63,8 +80,11 @@
 
 <body>
     <div class="header-container">
-        <div class="store-name">
-            <h1>Motor Rent Store</h1>
+        <div class="header-left">
+            <img src="../pictures/logo.png" alt="Logo" class="header-icon">
+            <div class="store-name">
+                <h1>Motor Rent Store</h1>
+            </div>
         </div>
         <div class="header-right">
             <button class="header-button car-button" onclick="goToCart()">Reservation</button>

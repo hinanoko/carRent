@@ -5,9 +5,59 @@
     <meta charset="UTF-8">
     <title>Confirm Order</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: hsl(158, 71%, 28%);
+            color: #fff;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .store-name {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .store-name h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 36px;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="header-container">
+        <div class="header-left">
+            <img src="../pictures/logo.png" alt="Logo" class="header-icon">
+            <div class="store-name">
+                <h1>Motor Rent Confirm</h1>
+            </div>
+        </div>
+    </div>
+
     <div>
         <p>this is the confirm page</p>
         <img src="../pictures/confirm.jpg" alt="Confirmation Image">

@@ -8,9 +8,16 @@ $carsJson = file_get_contents('../json/cars.json');
 $cars = json_decode($carsJson, true);
 
 $searchResults = array_filter($cars, function ($car) use ($query) {
-    return strpos(strtolower($car['make']), $query) !== false ||
-        strpos(strtolower($car['model']), $query) !== false ||
-        strpos(strtolower($car['type']), $query) !== false;
+    $make = strtolower($car['make']);
+    $model = strtolower($car['model']);
+    $type = strtolower($car['type']);
+    $fullName = "$make $model";
+
+    // 检查品牌、车型、类型或品牌+车型是否包含搜索关键词
+    return strpos($make, $query) !== false ||
+        strpos($model, $query) !== false ||
+        strpos($type, $query) !== false ||
+        strpos($fullName, $query) !== false;
 });
 
 if (empty($searchResults)) {

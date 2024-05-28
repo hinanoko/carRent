@@ -19,7 +19,6 @@
 
         .product-image {
             width: 200px;
-            /* 设置固定宽度 */
             height: 150px;
         }
 
@@ -30,13 +29,11 @@
 
         .page-image {
             width: 800px;
-            /* 设置固定宽度 */
             height: 550px;
         }
 
         .text {
             margin-top: 20px;
-            /* 确保文字不紧贴图片 */
             font-size: 24px;
             font-family: Arial, sans-serif;
         }
@@ -54,6 +51,12 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
+        .rent-button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -69,10 +72,11 @@
             echo '<h3>' . $product['rental_price'] . '</h3>';
             if ($product['quantity'] > 0) {
                 echo '<h3>Available</h3>';
+                echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
             } else {
                 echo '<h3>Not Available</h3>';
+                echo '<button class="rent-button" disabled>Rent</button>';
             }
-            echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
             echo '</div>';
         }
     }

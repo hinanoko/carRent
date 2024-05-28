@@ -1,10 +1,79 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: hsl(158, 71%, 28%);
+            color: #fff;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .store-name {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .store-name h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .car-details {
+            padding: 20px;
+        }
+
+        #quantityContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        #quantityContainer button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        #quantityDisplay {
+            margin: 0 10px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="header-container">
+        <div class="header-left">
+            <img src="../pictures/logo.png" alt="Logo" class="header-icon">
+            <div class="store-name">
+                <h1>Motor Rent Reservation</h1>
+            </div>
+        </div>
+    </div>
 
     <?php
     // 读取 id.json 文件
@@ -45,9 +114,9 @@
             echo '<p>' . $selectedCar['description'] . '</p>';
             echo '</div>';
     ?>
+
             <div>
-                <h3>Edit Rental Details</h3>
-                <form id="rentalForm" action="order.php" method="post">
+                <form id="rentalForm">
                     <label for="quantity">Quantity:</label>
                     <div id="quantityContainer">
                         <button type="button" onclick="decreaseTheQuan('<?php echo $selectedCar['id']; ?>')">-</button>
@@ -82,7 +151,7 @@
                     </select>
                     <span class="error" id="licenseError"></span>
                     <br>
-                    <button onclick="submitTheInfo('<?php echo $selectedCar['id']; ?>')">Submit Rental Order</button>
+                    <button type="button" onclick="submitTheInfo('<?php echo $selectedCar['id']; ?>')">Submit Rental Order</button>
                     <button type="button" onclick="cancelOrder('<?php echo $selectedCar['id']; ?>')">Cancel</button>
                     <span class="error" id="formError"></span>
                 </form>
@@ -90,37 +159,21 @@
     <?php
         } else {
             // 处理没有找到匹配的车辆数据的情况
-            echo "No car found with the provided ID.";
+            echo "<p>No car found with the provided ID.</p>";
         }
     } else {
         // 处理 id.json 文件没有内容的情况
-        echo "No ID provided in the JSON file.";
+        echo "<p>No ID provided in the JSON file.</p>";
     }
     ?>
-    <style>
-        #quantityContainer {
-            display: flex;
-            align-items: center;
-        }
-
-        #quantityContainer button {
-            padding: 5px 10px;
-            font-size: 16px;
-        }
-
-        #quantityDisplay {
-            margin: 0 10px;
-            font-size: 16px;
-        }
-    </style>
     <script>
         let currentQuantity = <?php echo $quantity; ?>;
 
         function decreaseTheQuan(id) {
             if (currentQuantity === 1) {
-                return
+                return;
             }
-            console.log("-" + id)
+            console.log("-" + id);
             $.ajax({
                 type: 'POST',
                 url: '../controller/decrease_cart.php',
@@ -128,12 +181,12 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.error(error)
+                    console.error(error);
                 }
-            })
+            });
             $.ajax({
                 type: 'POST',
                 url: '../controller/increase_quantity.php',
@@ -141,18 +194,18 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.error(error)
+                    console.error(error);
                 }
-            })
+            });
             currentQuantity--;
             document.getElementById('quantityDisplay').textContent = currentQuantity;
         }
 
         function increaseTheQuan(id) {
-            console.log("+" + id)
+            console.log("+" + id);
             $.ajax({
                 type: 'GET',
                 url: '../controller/get_quantity.php',
@@ -160,7 +213,7 @@
                     carId: id
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                     if (response > 0) {
                         currentQuantity++;
                         document.getElementById('quantityDisplay').textContent = currentQuantity;
@@ -171,12 +224,12 @@
                                 id: id
                             },
                             success: function(response) {
-                                console.log(response)
+                                console.log(response);
                             },
                             error: function(error) {
-                                console.error(error)
+                                console.error(error);
                             }
-                        })
+                        });
                         $.ajax({
                             type: 'POST',
                             url: '../controller/update_quantity.php',
@@ -184,14 +237,14 @@
                                 id: id
                             },
                             success: function(response) {
-                                console.log(response)
+                                console.log(response);
                             },
                             error: function(error) {
-                                console.error(error)
+                                console.error(error);
                             }
-                        })
+                        });
                     } else {
-                        console.log("?")
+                        console.log("?");
                     }
                 },
                 error: function(xhr, status, error) {
@@ -209,12 +262,12 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.error(error)
+                    console.error(error);
                 }
-            })
+            });
 
             $.ajax({
                 type: 'POST',
@@ -224,13 +277,13 @@
                     quantity: currentQuantity
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.error(error)
+                    console.error(error);
                 }
-            })
-            window.location.reload()
+            });
+            window.location.reload();
         }
 
 
@@ -250,6 +303,7 @@
             const mobileError = document.getElementById('mobileError');
             const emailError = document.getElementById('emailError');
             const licenseError = document.getElementById('licenseError');
+            const formError = document.getElementById('formError');
 
             // 清除之前的错误消息
             dateError.textContent = '';
@@ -257,6 +311,7 @@
             mobileError.textContent = '';
             emailError.textContent = '';
             licenseError.textContent = '';
+            formError.textContent = '';
 
             // 验证日期范围
             if (startDate >= endDate) {
@@ -290,58 +345,78 @@
                 isValid = false;
             }
 
-            // 如果表单数据有效,则发送到服务器
+            // 如果表单数据有效,则检查 uncompleted.json 文件中的 quantity
             if (isValid) {
-                console.log("....................")
-                const selectedCar = <?php echo json_encode($selectedCar); ?>;
-                const rentalPrice = selectedCar.rental_price;
-                const startDateTime = new Date(startDate);
-                const endDateTime = new Date(endDate);
-                const diffDays = Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24));
-                const totalPrice = diffDays * currentQuantity * rentalPrice;
-                const formData = {
-                    startDate,
-                    endDate,
-                    name,
-                    mobile,
-                    email,
-                    license,
-                    quantity: currentQuantity,
-                    carId: id,
-                    totalPrice: totalPrice,
-                    status: "pending"
-                };
-
                 $.ajax({
-                    type: 'POST',
-                    url: '../controller/delete_uncompleted.php',
+                    type: 'GET',
+                    url: '../controller/check_quantity.php',
                     data: {
                         id: id
                     },
                     success: function(response) {
                         console.log(response)
-                    },
-                    error: function(error) {
-                        console.error(error)
-                    }
-                })
-
-                $.ajax({
-                    type: 'POST',
-                    url: '../controller/process_order.php',
-                    data: formData,
-                    success: function(response) {
-                        console.log(response);
-                        // 处理服务器响应
-                        var param = id; // 替换为您要传递的参数值
-                        parent.parent.document.getElementById("indexPanel").src = "../page/confirm.php?param=" + encodeURIComponent(param);
+                        if (response > 0) {
+                            processOrder(id, startDate, endDate, name, mobile, email, license);
+                        } else {
+                            formError.textContent = 'The selected car is not available for rent.';
+                        }
                     },
                     error: function(error) {
                         console.error(error);
-                        // 处理错误
                     }
                 });
             }
+        }
+
+        function processOrder(id, startDate, endDate, name, mobile, email, license) {
+            const selectedCar = <?php echo json_encode($selectedCar); ?>;
+            const rentalPrice = selectedCar.rental_price;
+            const startDateTime = new Date(startDate);
+            const endDateTime = new Date(endDate);
+            const diffDays = Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24));
+            const totalPrice = diffDays * currentQuantity * rentalPrice;
+            const formData = {
+                startDate,
+                endDate,
+                name,
+                mobile,
+                email,
+                license,
+                quantity: currentQuantity,
+                carId: id,
+                totalPrice: totalPrice,
+                status: "pending"
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '../controller/delete_uncompleted.php',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(error) {
+                    console.error(error)
+                }
+            })
+
+            $.ajax({
+                type: 'POST',
+                url: '../controller/process_order.php',
+                data: formData,
+                success: function(response) {
+                    console.log(response);
+                    // 处理服务器响应
+                    var param = id; // 替换为您要传递的参数值
+                    parent.parent.document.getElementById("indexPanel").src = "../page/confirm.php?param=" + encodeURIComponent(param);
+                },
+                error: function(error) {
+                    console.error(error);
+                    // 处理错误
+                }
+            });
         }
     </script>
 </body>

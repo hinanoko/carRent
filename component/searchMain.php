@@ -41,6 +41,12 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
+        .rent-button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -58,10 +64,11 @@
                 echo '<h3>' . $product['rental_price'] . '</h3>';
                 if ($product['quantity'] > 0) {
                     echo '<h3>Available</h3>';
+                    echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
                 } else {
                     echo '<h3>Not Available</h3>';
+                    echo '<button class="rent-button" disabled>Rent</button>';
                 }
-                echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
                 echo '</div>';
             }
         } else {

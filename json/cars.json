@@ -87,7 +87,7 @@
         "fuel_type": "Gasoline",
         "mileage": "33 MPG",
         "rental_price": 60,
-        "quantity": 2,
+        "quantity": 0,
         "description": "The Honda Accord is a versatile and reliable sedan known for its performance and comfort. With seating for up to 5 passengers, it offers a smooth and enjoyable driving experience. The Accord achieves around 33 MPG, making it an excellent choice for daily commuting and long trips."
     },
     {
@@ -100,7 +100,7 @@
         "fuel_type": "Hybrid",
         "mileage": "55 MPG",
         "rental_price": 70,
-        "quantity": 2,
+        "quantity": 1,
         "description": "The Honda Insight is a fuel-efficient hybrid sedan known for its eco-friendly technology. With seating for up to 5 passengers, it offers a smooth and environmentally conscious driving experience. The Insight achieves an impressive 55 MPG, making it an ideal choice for those seeking fuel savings and sustainability."
     },
     {

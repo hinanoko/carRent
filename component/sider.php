@@ -159,6 +159,32 @@
         .recent-searches li:hover {
             background-color: #f5f5f5;
         }
+
+        .suggestions {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1;
+            width: 200px;
+        }
+
+        .suggestions ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .suggestions li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .suggestions li:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 
 </head>
@@ -169,7 +195,6 @@
 
         <div class="search_member_container">
             <div class="search_container_start">
-
                 <div class="search_icon_container">
                     <img class="search_icon" src="../icons/search.png" alt="Search Icon">
                 </div>
@@ -227,6 +252,7 @@
     <script>
         var recentSearches = []; // Initialize an empty array
         document.addEventListener('DOMContentLoaded', function() {
+            var suggestionsContainer;
             var mainButton = document.querySelector('.mainButton');
             var sidebar = document.querySelector('.sidebar');
             var submenu = mainButton.nextElementSibling;
@@ -400,6 +426,68 @@
                 var params = new URLSearchParams();
                 params.append('results', JSON.stringify(results));
                 parent.document.getElementById("mainPanel").src = "../component/searchMain.php?" + params.toString();
+            }
+
+            searchInput.addEventListener('input', function() {
+                var query = searchInput.value.trim();
+                if (query.length > 0) {
+                    fetchSuggestions(query);
+                } else {
+                    if (suggestionsContainer) {
+                        suggestionsContainer.style.display = 'none';
+                    }
+                }
+            });
+
+            function fetchSuggestions(query) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '../controller/fetch_suggestions.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        var suggestions = JSON.parse(xhr.responseText);
+                        displaySuggestions(suggestions);
+                    }
+                };
+                xhr.send(JSON.stringify({
+                    query: query
+                }));
+            }
+
+            var searchInputContainer = document.querySelector('.search_input_container');
+            var suggestionsContainer;
+
+            // Fetch Suggestions Function and Display Suggestions Function remain the same
+
+            function displaySuggestions(suggestions) {
+                if (!suggestionsContainer) {
+                    suggestionsContainer = document.createElement('div');
+                    suggestionsContainer.classList.add('suggestions');
+                    document.body.appendChild(suggestionsContainer); // 将容器添加到 body 中
+                }
+
+                suggestionsContainer.innerHTML = '';
+                if (suggestions.length > 0) {
+                    var ul = document.createElement('ul');
+                    suggestions.forEach(function(suggestion) {
+                        var li = document.createElement('li');
+                        li.textContent = suggestion;
+                        li.addEventListener('click', function() {
+                            searchInput.value = suggestion;
+                            suggestionsContainer.style.display = 'none';
+                        });
+                        ul.appendChild(li);
+                    });
+                    suggestionsContainer.appendChild(ul);
+                    suggestionsContainer.style.display = 'block';
+
+                    // 计算搜索建议容器的位置
+                    var searchInputRect = searchInput.getBoundingClientRect();
+                    suggestionsContainer.style.left = searchInputRect.left + 'px';
+                    suggestionsContainer.style.top = (searchInputRect.bottom + window.scrollY) + 'px';
+                } else {
+                    suggestionsContainer.style.display = 'none';
+                }
             }
         });
     </script>
