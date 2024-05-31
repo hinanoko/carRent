@@ -122,10 +122,65 @@
             font-size: 14px;
             margin-bottom: 10px;
         }
+
+        .back-button {
+            background-color: #4CAF50;
+            /* 绿色 */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #3e8e41;
+            /* 深绿色 */
+        }
     </style>
 </head>
 
 <body>
+    <script>
+        function backToMain() {
+            parent.parent.document.getElementById("indexPanel").src = "../main.html";
+        }
+        // 手机号验证函数
+        function validateMobile() {
+            const mobileInput = document.getElementById('mobile');
+            const mobileError = document.getElementById('mobileError');
+            const mobileRegex = /^[0-9]{10}$/;
+
+            if (mobileRegex.test(mobileInput.value)) {
+                mobileError.textContent = 'you are right';
+                mobileError.style.color = 'green'; // Set text color to green
+            } else {
+                mobileError.textContent = 'Invalid mobile number';
+                mobileError.style.color = 'red'; // Set text color to green
+            }
+        }
+
+        // 电子邮件验证函数
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+            if (emailRegex.test(emailInput.value)) {
+                emailError.textContent = 'you are right';
+                emailError.style.color = 'green'; // Set text color to green
+            } else {
+                emailError.textContent = 'Invalid email address';
+                emailError.style.color = 'red'; // Set text color to green
+            }
+        }
+    </script>
     <div class="header-container">
         <div class="header-left">
             <img src="../pictures/logo.png" alt="Logo" class="header-icon">
@@ -184,23 +239,26 @@
                         <button type="button" onclick="increaseTheQuan('<?php echo $selectedCar['id']; ?>')">+</button>
                     </div>
                     <br>
+                    <label for="totalPrice">Total Price:</label>
+                    <span id="totalPrice">$<?php echo $selectedCar['rental_price'] * $quantity; ?></span>
+                    <br>
                     <label for="startDate">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate" required>
+                    <input type="date" id="startDate" name="startDate" onchange="updateTotalPrice()" required>
                     <br>
                     <label for="endDate">End Date:</label>
-                    <input type="date" id="endDate" name="endDate" required>
+                    <input type="date" id="endDate" name="endDate" onchange="updateTotalPrice()" required>
                     <span class="error" id="dateError"></span>
                     <br>
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" placeholder="please input your name" required>
                     <span class="error" id="nameError"></span>
                     <br>
                     <label for="mobile">Mobile Number:</label>
-                    <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required>
+                    <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" placeholder="10 numbers, like: 0478123456" required onkeyup="validateMobile()">
                     <span class="error" id="mobileError"></span>
                     <br>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="email format, like: xxx.xxx@gmail.com" required onkeyup="validateEmail()">
                     <span class="error" id="emailError"></span>
                     <br>
                     <label for="license">Valid Driver's License:</label>
@@ -215,6 +273,7 @@
                     <button type="button" onclick="cancelOrder('<?php echo $selectedCar['id']; ?>')">Cancel</button>
                     <span class="error" id="formError"></span>
                 </form>
+                <button class='back-button' onclick="backToMain()">backToMain</button>
             </div>
     <?php
         } else {
@@ -223,14 +282,33 @@
         }
     } else {
         // 处理 id.json 文件没有内容的情况
-        echo "<p>No ID provided in the JSON file.</p>";
+        echo "<p>The Reservation List is empty, choose the car now.</p>";
+        echo "<button class='back-button' onclick='backToMain()'>Back to Main Page</button>";
     }
     ?>
     <script>
         let currentQuantity = <?php echo $quantity; ?>;
 
+        function updateTotalPrice() {
+            let rentalPrice = <?php echo $selectedCar['rental_price']; ?>;
+            let quantity = parseInt(document.getElementById('quantityDisplay').innerText);
+            let startDate = new Date(document.getElementById('startDate').value);
+            let endDate = new Date(document.getElementById('endDate').value);
+
+            if (!isNaN(startDate) && !isNaN(endDate) && endDate > startDate) {
+                let timeDifference = endDate.getTime() - startDate.getTime();
+                let daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+                let totalPrice = rentalPrice * quantity * daysDifference;
+                document.getElementById("totalPrice").innerText = `$${totalPrice}`;
+            } else {
+                document.getElementById("totalPrice").innerText = `$${rentalPrice * quantity}`;
+            }
+        }
+
         function decreaseTheQuan(id) {
             if (currentQuantity === 1) {
+                console.log("5555555555")
+                updateTotalPrice();
                 return;
             }
             console.log("-" + id);
@@ -262,6 +340,7 @@
             });
             currentQuantity--;
             document.getElementById('quantityDisplay').textContent = currentQuantity;
+            updateTotalPrice();
         }
 
         function increaseTheQuan(id) {
@@ -303,6 +382,7 @@
                                 console.error(error);
                             }
                         });
+                        updateTotalPrice();
                     } else {
                         console.log("?");
                         alert("the store don't have enough car")

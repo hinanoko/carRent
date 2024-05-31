@@ -51,17 +51,22 @@
 </head>
 
 <body>
-    <div class="grid-container">
-        <?php
-        if (isset($_GET['results'])) {
-            $results = json_decode($_GET['results'], true);
-
+    <?php
+    if (isset($_GET['results'])) {
+        $results = json_decode($_GET['results'], true);
+        $isRandomResults = count($results) === 5 && !isset($_GET['query']);
+    ?>
+        <?php if ($isRandomResults) : ?>
+            <div class="text">No matching options, here are 5 recommended options:</div>
+        <?php endif; ?>
+        <div class="grid-container">
+            <?php
             foreach ($results as $product) {
                 echo '<div class="grid-item">';
                 echo '<img class="product-image" src="../pictures/' . $product['id'] . '.jpg" alt="' . $product['id'] . '">';
-                echo '<h3>' . $product['model'] . '</h3>';
-                echo '<h3>' . $product['type'] . '</h3>';
-                echo '<h3>' . $product['rental_price'] . '</h3>';
+                echo '<h3>name: ' . $product['model'] . '</h3>';
+                echo '<h3>type: ' . $product['type'] . '</h3>';
+                echo '<h3>price/day: ' . $product['rental_price'] . '</h3>';
                 if ($product['quantity'] > 0) {
                     echo '<h3>Available</h3>';
                     echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
@@ -71,11 +76,13 @@
                 }
                 echo '</div>';
             }
-        } else {
-            echo '<div class="text">No search results to display.</div>';
-        }
-        ?>
-    </div>
+            ?>
+        </div>
+    <?php
+    } else {
+        echo '<div class="text">No search results to display.</div>';
+    }
+    ?>
 
     <script>
         function goToRent(id, number) {

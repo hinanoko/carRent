@@ -67,9 +67,9 @@
         if ($product['id'] >= $idRange[0] && $product['id'] <= $idRange[1]) {
             echo '<div class="grid-item">';
             echo '<img class="product-image" src="../pictures/' . $product['id'] . '.jpg" alt="' . $product['id'] . '">';
-            echo '<h3>' . $product['model'] . '</h3>';
-            echo '<h3>' . $product['type'] . '</h3>';
-            echo '<h3>' . $product['rental_price'] . '</h3>';
+            echo '<h3>name: ' . $product['model'] . '</h3>';
+            echo '<h3>type: ' . $product['type'] . '</h3>';
+            echo '<h3>price/day: ' . $product['rental_price'] . ' $</h3>';
             if ($product['quantity'] > 0) {
                 echo '<h3>Available</h3>';
                 echo '<button class="rent-button" onClick="goToRent(\'' . $product['id'] . '\', ' . $product['quantity'] . ')">Rent</button>';
