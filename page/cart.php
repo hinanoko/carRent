@@ -436,6 +436,8 @@
             const mobile = document.getElementById('mobile').value;
             const email = document.getElementById('email').value;
             const license = document.getElementById('license').value;
+            const totalPrice = document.getElementById('totalPrice').value;
+            console.log(totalPrice)
 
             // 执行表单验证
             let isValid = true;

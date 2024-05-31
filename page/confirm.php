@@ -103,9 +103,9 @@
         if (isset($_GET['param'])) {
             $paramValue = $_GET['param'];
             // 处理接收到的参数值
-            echo '接收到的参数值：' . htmlspecialchars($paramValue);
+            //echo 'Get the value：' . htmlspecialchars($paramValue);
         } else {
-            echo '未接收到参数值';
+            //echo 'didn't get the value';
             $paramValue = null;
         }
         ?>

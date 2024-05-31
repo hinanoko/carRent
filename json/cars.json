@@ -152,7 +152,7 @@
         "fuel_type": "Gasoline",
         "mileage": "32 MPG",
         "rental_price": 55,
-        "quantity": 10,
+        "quantity": 8,
         "description": "The Nissan Altima S is a reliable and comfortable sedan suitable for daily commuting and family trips. With seating for up to 5 passengers, it offers good fuel efficiency, achieving around 32 MPG. Experience a smooth and enjoyable ride with the Altima S."
     },
     {
@@ -425,7 +425,7 @@
         "fuel_type": "Gasoline",
         "mileage": "28 MPG",
         "rental_price": 48,
-        "quantity": 3,
+        "quantity": 1,
         "description": "The Toyota Venza is a mid-size wagon that offers a sleek design and a comfortable ride. With seating for up to 5 passengers and a spacious cargo area, it's a stylish and practical choice for those who need extra versatility."
     },
     {
