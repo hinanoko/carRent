@@ -1,0 +1,75 @@
+/* Overall Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 10px;
+    /* Header Container Border Radius */
+}
+
+/* Header Styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: hsl(158, 71%, 28%);
+    color: #fff;
+    border-radius: 10px;
+    /* Header Container Border Radius */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.store-name h1 {
+    font-family: 'Righteous', cursive;
+    font-size: 36px;
+    margin: 0;
+}
+
+/* Main Content Styles */
+.content-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.content-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.content-container p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Confirm Order Link Styles */
+#confirmOrderLink {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#confirmOrderLink:hover {
+    background-color: #555;
+}
+
+#confirmOrderLink i {
+    margin-right: 5px;
+}

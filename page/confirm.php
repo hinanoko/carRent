@@ -6,83 +6,7 @@
     <title>Confirm Order</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* 整体样式 */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            border-radius: 10px;
-            /* 头部容器圆角 */
-        }
-
-        /* 头部样式 */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: hsl(158, 71%, 28%);
-            color: #fff;
-            border-radius: 10px;
-            /* 头部容器圆角 */
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .store-name h1 {
-            font-family: 'Righteous', cursive;
-            font-size: 36px;
-            margin: 0;
-        }
-
-        /* 主体内容样式 */
-        .content-container {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .content-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-
-        .content-container p {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        /* 确认订单链接样式 */
-        #confirmOrderLink {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        #confirmOrderLink:hover {
-            background-color: #555;
-        }
-
-        #confirmOrderLink i {
-            margin-right: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/confirm.css">
 </head>
 
 <body>
@@ -99,10 +23,10 @@
         <p>This is the confirmation page.</p>
         <img src="../pictures/confirm.jpg" alt="Confirmation Image">
         <?php
-        // 接收传递的参数
+        // Receive passed parameters
         if (isset($_GET['param'])) {
             $paramValue = $_GET['param'];
-            // 处理接收到的参数值
+            // Process received parameter values
             //echo 'Get the value：' . htmlspecialchars($paramValue);
         } else {
             //echo 'didn't get the value';
@@ -110,7 +34,7 @@
         }
         ?>
         <br>
-        <!-- 确认订单的链接 -->
+        <!-- Confirm order link -->
         <a href="#" id="confirmOrderLink" onclick="confirmOrder('<?php echo htmlspecialchars($paramValue); ?>')"><i class="fas fa-check-circle"></i>Click here to confirm your order</a>
     </div>
 
@@ -123,9 +47,9 @@
 
             console.log(orderId);
 
-            // 发送 AJAX 请求
+            // Send AJAX request
             $.ajax({
-                url: '../controller/update_status.php', // PHP 文件的 URL
+                url: '../controller/update_status.php', // The URL of a PHP file
                 type: 'POST',
                 data: {
                     order_id: orderId
@@ -133,14 +57,15 @@
                 success: function(response) {
                     console.log(response);
                     console.log('Order status updated successfully!');
-                    // 5秒后自动跳转到主页面
+                    alert("you have confirm the order successfully")
+                    // Automatically jump to the main page in 5 seconds
                     setTimeout(function() {
                         parent.parent.document.getElementById("indexPanel").src = "../main.html"
                     }, 5000);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error updating order status:', error);
-                    // 可选: 处理错误情况
+                    //Optional: Handling error situations
                 }
             });
         }

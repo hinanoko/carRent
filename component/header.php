@@ -8,17 +8,17 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            /* 禁止水平滚动 */
+            /* Disable horizontal scrolling */
             background-color: hsl(158, 71%, 28%);
             color: #fff;
             font-family: Arial, sans-serif;
             border-radius: 10px;
-            /* 头部容器圆角 */
+            /* Header container rounded corners */
         }
 
         .header-container {
             border-radius: 10px;
-            /* 头部容器圆角 */
+            /* Header container rounded corners */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -100,6 +100,7 @@
     <script>
         function goToCart() {
             var valueToPass = 'anything';
+            // Navigate to the cart page with the carId parameter
             parent.parent.document.getElementById("indexPanel").src = "../page/cart.php?carId=" + valueToPass;
         }
     </script>

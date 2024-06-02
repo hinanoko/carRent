@@ -3,147 +3,7 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        /* 整体样式 */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            border-radius: 10px;
-            /* 头部容器圆角 */
-        }
-
-        /* 头部样式 */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: hsl(158, 71%, 28%);
-            color: #fff;
-            border-radius: 10px;
-            /* 头部容器圆角 */
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .store-name h1 {
-            font-family: 'Righteous', cursive;
-            font-size: 36px;
-            margin: 0;
-        }
-
-        /* 车辆详情样式 */
-        .car-details {
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            margin: 20px;
-        }
-
-        .car-details h3 {
-            margin-top: 0;
-        }
-
-        .car-details img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-
-        /* 表单样式 */
-        #rentalForm {
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            margin: 20px;
-        }
-
-        #rentalForm label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        #rentalForm input,
-        #rentalForm select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-
-        #quantityContainer {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        #quantityContainer button {
-            padding: 5px 10px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #quantityDisplay {
-            margin: 0 10px;
-            font-size: 16px;
-        }
-
-        #rentalForm button[type="button"] {
-            padding: 8px 16px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .back-button {
-            background-color: #4CAF50;
-            /* 绿色 */
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #3e8e41;
-            /* 深绿色 */
-        }
-    </style>
+    <link rel="stylesheet" href="../style/cart.css">
 </head>
 
 <body>
@@ -191,22 +51,22 @@
     </div>
 
     <?php
-    // 读取 id.json 文件
+    // Read the id.json file
     $id_json_data = file_get_contents('../json/uncompleted.json');
     $id_data = json_decode($id_json_data, true);
 
-    // 初始化变量
+    // initialize variable
     $carId = isset($id_data['id']) ? $id_data['id'] : null;
     $quantity = isset($id_data['quantity']) ? $id_data['quantity'] : 1;
 
-    // 检查 id.json 文件是否有内容
+    // Check if there is content in the id.json file
     if ($carId !== null) {
 
-        // 读取 cars.json 文件
+        // Read the cars.json file
         $json_data = file_get_contents('../json/cars.json');
         $cars = json_decode($json_data, true);
 
-        // 查找匹配的车辆数据
+        // Find matching vehicle data
         $selectedCar = null;
         foreach ($cars as $car) {
             if ($car['id'] === $carId) {
@@ -215,9 +75,9 @@
             }
         }
 
-        // 如果找到匹配的车辆数据
+        // If matching vehicle data is found
         if ($selectedCar !== null) {
-            // 输出车辆数据
+            // Output vehicle data
             echo '<div class="car-details">';
             echo '<h3>' . $selectedCar['make'] . ' ' . $selectedCar['model'] . '</h3>';
             echo '<img src="../pictures/' . $selectedCar['id'] . '.jpg" alt="' . $selectedCar['model'] . '" width="200">';
@@ -277,11 +137,11 @@
             </div>
     <?php
         } else {
-            // 处理没有找到匹配的车辆数据的情况
+            // Dealing with situations where no matching vehicle data is found
             echo "<p>No car found with the provided ID.</p>";
         }
     } else {
-        // 处理 id.json 文件没有内容的情况
+        // Dealing with situations where the id.json file has no content
         echo "<p>The Reservation List is empty, choose the car now.</p>";
         echo "<button class='back-button' onclick='backToMain()'>Back to Main Page</button>";
     }
@@ -290,28 +150,38 @@
         let currentQuantity = <?php echo $quantity; ?>;
 
         function updateTotalPrice() {
+            // Get rental price, quantity, and selected dates
             let rentalPrice = <?php echo $selectedCar['rental_price']; ?>;
             let quantity = parseInt(document.getElementById('quantityDisplay').innerText);
             let startDate = new Date(document.getElementById('startDate').value);
             let endDate = new Date(document.getElementById('endDate').value);
 
+            // Calculate total price if selected dates are valid
             if (!isNaN(startDate) && !isNaN(endDate) && endDate > startDate) {
+                // Calculate time difference and days difference
                 let timeDifference = endDate.getTime() - startDate.getTime();
                 let daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+                // Calculate total price based on rental duration, quantity, and rental price
                 let totalPrice = rentalPrice * quantity * daysDifference;
                 document.getElementById("totalPrice").innerText = `$${totalPrice}`;
             } else {
+                // Calculate total price without considering rental duration
                 document.getElementById("totalPrice").innerText = `$${rentalPrice * quantity}`;
             }
         }
 
         function decreaseTheQuan(id) {
+            // Check if the current quantity is 1
             if (currentQuantity === 1) {
-                console.log("5555555555")
-                updateTotalPrice();
-                return;
+                console.log("5555555555"); // Log a message for debugging
+                updateTotalPrice(); // Update the total price when quantity is decreased to 1
+                return; // Exit the function
             }
-            console.log("-" + id);
+
+            console.log("-" + id); // Log the ID for debugging purposes
+
+            // Decrease the quantity by sending an AJAX request to decrease_cart.php
             $.ajax({
                 type: 'POST',
                 url: '../controller/decrease_cart.php',
@@ -319,12 +189,14 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); // Log the response for debugging
                 },
                 error: function(error) {
-                    console.error(error);
+                    console.error(error); // Log any errors encountered
                 }
             });
+
+            // Increase the quantity by sending an AJAX request to increase_quantity.php
             $.ajax({
                 type: 'POST',
                 url: '../controller/increase_quantity.php',
@@ -332,19 +204,25 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); // Log the response for debugging
                 },
                 error: function(error) {
-                    console.error(error);
+                    console.error(error); // Log any errors encountered
                 }
             });
+
+            // Decrease the current quantity in the UI
             currentQuantity--;
             document.getElementById('quantityDisplay').textContent = currentQuantity;
+
+            // Update the total price after changing the quantity
             updateTotalPrice();
         }
 
         function increaseTheQuan(id) {
-            console.log("+" + id);
+            console.log("+" + id); // Log the ID for debugging
+
+            // Send a GET request to get the current quantity
             $.ajax({
                 type: 'GET',
                 url: '../controller/get_quantity.php',
@@ -352,10 +230,14 @@
                     carId: id
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); // Log the response for debugging
+
+                    // Check if the quantity is available
                     if (response > 0) {
-                        currentQuantity++;
-                        document.getElementById('quantityDisplay').textContent = currentQuantity;
+                        currentQuantity++; // Increase the current quantity
+                        document.getElementById('quantityDisplay').textContent = currentQuantity; // Update the quantity display in UI
+
+                        // Send a POST request to increase_cart.php to update the cart
                         $.ajax({
                             type: 'POST',
                             url: '../controller/increase_cart.php',
@@ -363,12 +245,14 @@
                                 id: id
                             },
                             success: function(response) {
-                                console.log(response);
+                                console.log(response); // Log the response for debugging
                             },
                             error: function(error) {
-                                console.error(error);
+                                console.error(error); // Log any errors encountered
                             }
                         });
+
+                        // Send a POST request to update_quantity.php to update the quantity
                         $.ajax({
                             type: 'POST',
                             url: '../controller/update_quantity.php',
@@ -376,26 +260,30 @@
                                 id: id
                             },
                             success: function(response) {
-                                console.log(response);
+                                console.log(response); // Log the response for debugging
                             },
                             error: function(error) {
-                                console.error(error);
+                                console.error(error); // Log any errors encountered
                             }
                         });
+
+                        // Update the total price after changing the quantity
                         updateTotalPrice();
                     } else {
-                        console.log("?");
-                        alert("the store don't have enough car")
+                        console.log("?"); // Log a question mark for debugging
+                        alert("the store don't have enough car"); // Show an alert if the car is not available
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error(error);
+                    console.error(error); // Log any errors encountered
                 }
             });
         }
 
         function cancelOrder(id) {
-            console.log("Welcome, your id is: " + id);
+            console.log("Welcome, your id is: " + id); // Log a welcome message with the ID
+
+            // Send a POST request to delete_uncompleted.php to cancel the order
             $.ajax({
                 type: 'POST',
                 url: '../controller/delete_uncompleted.php',
@@ -403,13 +291,14 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); // Log the response for debugging
                 },
                 error: function(error) {
-                    console.error(error);
+                    console.error(error); // Log any errors encountered
                 }
             });
 
+            // Send a POST request to backToCart.php to update the cart
             $.ajax({
                 type: 'POST',
                 url: '../controller/backToCart.php',
@@ -418,18 +307,19 @@
                     quantity: currentQuantity
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); // Log the response for debugging
                 },
                 error: function(error) {
-                    console.error(error);
+                    console.error(error); // Log any errors encountered
                 }
             });
-            window.location.reload();
+
+            window.location.reload(); // Reload the window after canceling the order
         }
 
 
         function submitTheInfo(id) {
-            // 获取表单数据
+            // Get form data
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
             const name = document.getElementById('name').value;
@@ -437,9 +327,9 @@
             const email = document.getElementById('email').value;
             const license = document.getElementById('license').value;
             const totalPrice = document.getElementById('totalPrice').value;
-            console.log(totalPrice)
+            console.log(totalPrice);
 
-            // 执行表单验证
+            // Perform form validation
             let isValid = true;
             const dateError = document.getElementById('dateError');
             const nameError = document.getElementById('nameError');
@@ -448,7 +338,7 @@
             const licenseError = document.getElementById('licenseError');
             const formError = document.getElementById('formError');
 
-            // 清除之前的错误消息
+            // Clear previous error messages
             dateError.textContent = '';
             nameError.textContent = '';
             mobileError.textContent = '';
@@ -456,39 +346,39 @@
             licenseError.textContent = '';
             formError.textContent = '';
 
-            // 验证日期范围
+            // Validate date range
             if (startDate >= endDate) {
                 dateError.textContent = 'End date must be after start date';
                 isValid = false;
             }
 
-            // 验证姓名
+            // Validate name
             if (name.trim() === '') {
                 nameError.textContent = 'Name is required';
                 isValid = false;
             }
 
-            // 验证手机号码
+            // Validate mobile number
             const mobileRegex = /^[0-9]{10}$/;
             if (!mobileRegex.test(mobile)) {
                 mobileError.textContent = 'Invalid mobile number';
                 isValid = false;
             }
 
-            // 验证电子邮件
+            // Validate email address
             const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
             if (!emailRegex.test(email)) {
                 emailError.textContent = 'Invalid email address';
                 isValid = false;
             }
 
-            // 验证驾驶执照
+            // Validate driver's license
             if (license === '') {
                 licenseError.textContent = 'Please select an option';
                 isValid = false;
             }
 
-            // 如果表单数据有效,则检查 uncompleted.json 文件中的 quantity
+            // If form data is valid, check the quantity in uncompleted.json file
             if (isValid) {
                 $.ajax({
                     type: 'GET',
@@ -497,7 +387,7 @@
                         id: id
                     },
                     success: function(response) {
-                        console.log(response)
+                        console.log(response);
                         if (response > 0) {
                             processOrder(id, startDate, endDate, name, mobile, email, license);
                         } else {
@@ -512,12 +402,15 @@
         }
 
         function processOrder(id, startDate, endDate, name, mobile, email, license) {
+            // Get selected car details and calculate total price
             const selectedCar = <?php echo json_encode($selectedCar); ?>;
             const rentalPrice = selectedCar.rental_price;
             const startDateTime = new Date(startDate);
             const endDateTime = new Date(endDate);
             const diffDays = Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24));
             const totalPrice = diffDays * currentQuantity * rentalPrice;
+
+            // Prepare form data for submission
             const formData = {
                 startDate,
                 endDate,
@@ -531,6 +424,7 @@
                 status: "pending"
             };
 
+            // Delete uncompleted order
             $.ajax({
                 type: 'POST',
                 url: '../controller/delete_uncompleted.php',
@@ -538,26 +432,27 @@
                     id: id
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.error(error)
+                    console.error(error);
                 }
-            })
+            });
 
+            // Process the order
             $.ajax({
                 type: 'POST',
                 url: '../controller/process_order.php',
                 data: formData,
                 success: function(response) {
                     console.log(response);
-                    // 处理服务器响应
-                    var param = id; // 替换为您要传递的参数值
+                    // Handle server response
+                    var param = id; // Replace with the parameter you want to pass
                     parent.parent.document.getElementById("indexPanel").src = "../page/confirm.php?param=" + encodeURIComponent(param);
                 },
                 error: function(error) {
                     console.error(error);
-                    // 处理错误
+                    // Handle errors
                 }
             });
         }

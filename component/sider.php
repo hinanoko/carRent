@@ -2,191 +2,7 @@
 <html>
 
 <head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .sidebar {
-            height: 90%;
-            width: 200px;
-            bottom: 0;
-            left: -250px;
-            background-color: #333;
-            padding-top: 0px;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .sidebar ul li:hover {
-            background-color: #555;
-        }
-
-        .submenu {
-            display: none;
-        }
-
-        .submenu.open {
-            display: block;
-        }
-
-        .submenu ul {
-            padding-left: 20px;
-        }
-
-        .secondSubmenu {
-            display: none;
-        }
-
-        .secondSubmenu.open {
-            display: block;
-        }
-
-        .search_member_container {
-            width: 200px;
-            display: flex;
-            margin-left: 2px;
-        }
-
-        .search_container_start {
-            display: flex;
-            align-items: center;
-        }
-
-        .search_icon_container {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 3px;
-        }
-
-        .search_icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-        }
-
-        .search_input_container {
-            display: flex;
-            align-items: center;
-            margin-right: 3px;
-        }
-
-        .search_input {
-            width: 110px;
-            height: 30px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 0 10px;
-            outline: none;
-        }
-
-        .search_submit_btn_container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .search_btn {
-            width: 50px;
-            height: 30px;
-            background-color: #32cd80;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .search_input:focus {
-            border-color: #66afe9;
-            outline: 0;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-        }
-
-        .sidebar-header {
-            height: 20px;
-        }
-
-        .recent-searches {
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1;
-            width: 200px;
-        }
-
-        .recent-searches-header {
-            padding: 8px 12px;
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-
-        .recent-searches ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .recent-searches li {
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-
-        .recent-searches li:hover {
-            background-color: #f5f5f5;
-        }
-
-        .suggestions {
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1;
-            width: 200px;
-        }
-
-        .suggestions ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .suggestions li {
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-
-        .suggestions li:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
-
+    <link rel="stylesheet" href="../style/sider.css">
 </head>
 
 <body>
@@ -250,18 +66,22 @@
     <div id="carInfoContainer"></div>
 
     <script>
-        var recentSearches = []; // Initialize an empty array
+        var recentSearches = JSON.parse(sessionStorage.getItem('recentSearches')) || []; // Initialize an empty array
+
+        // Wait for the DOM content to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             var suggestionsContainer;
             var mainButton = document.querySelector('.mainButton');
             var sidebar = document.querySelector('.sidebar');
             var submenu = mainButton.nextElementSibling;
 
+            // Toggle the sidebar and submenu visibility on main button click
             mainButton.addEventListener('click', function() {
                 submenu.classList.toggle('open');
                 sidebar.classList.toggle('open');
             });
 
+            // Handle click events on expandable elements
             var expandables = document.querySelectorAll('.expandable');
             expandables.forEach(function(expandable) {
                 expandable.addEventListener('click', function() {
@@ -275,6 +95,7 @@
                 });
             });
 
+            // Handle click events on second expandable elements
             var secondExpandables = document.querySelectorAll('.secondExpandable');
             secondExpandables.forEach(function(secondExpandable) {
                 secondExpandable.addEventListener('click', function() {
@@ -288,6 +109,7 @@
                 });
             });
 
+            // Function to close main menus except the specified one
             function closeMainMenus(exceptThis) {
                 var submenus = document.querySelectorAll('.submenu');
                 submenus.forEach(function(submenu) {
@@ -297,6 +119,7 @@
                 });
             }
 
+            // Function to close all submenus except the specified one
             function closeAllSubmenus(exceptThis) {
                 var submenus = document.querySelectorAll('.secondSubmenu');
                 submenus.forEach(function(submenu) {
@@ -306,6 +129,7 @@
                 });
             }
 
+            // Handle click events on submenu items
             var submenuItems = document.querySelectorAll('.secondSubmenu li');
             submenuItems.forEach(function(item) {
                 item.addEventListener('click', function() {
@@ -321,11 +145,12 @@
                 });
             });
 
-            // 搜索功能的事件监听器
+            // Event listener for search functionality
             var searchInput = document.getElementById('searchInput');
             var searchBtn = document.getElementById('searchBtn');
             var recentSearchesContainer;
 
+            // Event listener for search button click
             searchBtn.addEventListener('click', function() {
                 var searchInputValue = searchInput.value.trim();
                 if (searchInputValue !== '') {
@@ -350,10 +175,12 @@
                 }));
             });
 
+            // Function to display recent searches when the search input is focused
             searchInput.addEventListener('focus', function() {
                 displayRecentSearches();
             });
 
+            // Function to display recent searches based on input value
             searchInput.addEventListener('input', function() {
                 if (searchInput.value.trim() === '') {
                     displayRecentSearches();
@@ -364,6 +191,7 @@
                 }
             });
 
+            // Function to hide recent searches container on blur
             searchInput.addEventListener('blur', function() {
                 setTimeout(function() { // Delay to allow click event on recent searches
                     if (recentSearchesContainer) {
@@ -372,6 +200,7 @@
                 }, 200);
             });
 
+            // Function to display recent searches container
             function displayRecentSearches() {
                 if (recentSearchesContainer) {
                     recentSearchesContainer.remove();
@@ -407,38 +236,46 @@
                 positionRecentSearchesContainer();
             }
 
+            // Function to position the recent searches container
             function positionRecentSearchesContainer() {
                 var searchInputRect = searchInput.getBoundingClientRect();
                 recentSearchesContainer.style.left = searchInputRect.left + 'px';
                 recentSearchesContainer.style.top = (searchInputRect.bottom + window.scrollY - 1) + 'px'; // Adjusted to be closer
             }
 
+            // Function to update recent searches array
             function updateRecentSearches(searchInputValue) {
                 if (!recentSearches.includes(searchInputValue)) {
                     recentSearches.push(searchInputValue);
                     if (recentSearches.length > 5) {
                         recentSearches.shift();
                     }
+                    // Save recent searches to session storage
+                    sessionStorage.setItem('recentSearches', JSON.stringify(recentSearches));
                 }
             }
 
+            // Function to display search results
             function displaySearchResults(results) {
                 var params = new URLSearchParams();
                 params.append('results', JSON.stringify(results));
                 parent.document.getElementById("mainPanel").src = "../component/searchMain.php?" + params.toString();
             }
 
+            // Event listener for input changes in search input
             searchInput.addEventListener('input', function() {
                 var query = searchInput.value.trim();
                 if (query.length > 0) {
                     fetchSuggestions(query);
                 } else {
                     if (suggestionsContainer) {
+
                         suggestionsContainer.style.display = 'none';
                     }
                 }
             });
 
+            // Function to fetch search suggestions from the server
             function fetchSuggestions(query) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '../controller/fetch_suggestions.php', true);
@@ -463,7 +300,7 @@
                 if (!suggestionsContainer) {
                     suggestionsContainer = document.createElement('div');
                     suggestionsContainer.classList.add('suggestions');
-                    document.body.appendChild(suggestionsContainer); // 将容器添加到 body 中
+                    document.body.appendChild(suggestionsContainer); // Append the container to the body
                 }
 
                 suggestionsContainer.innerHTML = '';
@@ -481,7 +318,7 @@
                     suggestionsContainer.appendChild(ul);
                     suggestionsContainer.style.display = 'block';
 
-                    // 计算搜索建议容器的位置
+                    // Calculate the position of the search suggestions container
                     var searchInputRect = searchInput.getBoundingClientRect();
                     suggestionsContainer.style.left = searchInputRect.left + 'px';
                     suggestionsContainer.style.top = (searchInputRect.bottom + window.scrollY) + 'px';

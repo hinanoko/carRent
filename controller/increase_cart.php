@@ -1,17 +1,17 @@
 <?php
-// 读取JSON文件
+// Read the JSON file
 $jsonData = file_get_contents('../json/uncompleted.json');
 
-// 将JSON数据解码为PHP关联数组
+// Decode the JSON data into a PHP associative array
 $data = json_decode($jsonData, true);
 
-// 修改quantity的值
+// Increment the value of 'quantity'
 $data['quantity'] = (int)$data['quantity'] + 1;
 
-// 将修改后的数据编码为JSON格式
+// Encode the modified data back into JSON format
 $updatedJsonData = json_encode($data, JSON_PRETTY_PRINT);
 
-// 将修改后的JSON数据写回文件
+// Write the updated JSON data back to the file
 file_put_contents('../json/uncompleted.json', $updatedJsonData);
 
-echo "JSON文件已成功更新!";
+echo "JSON file has been successfully updated!";

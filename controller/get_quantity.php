@@ -1,13 +1,15 @@
 <?php
-// 读取 cars.json 文件
+// Read the cars.json file
 $json_data = file_get_contents('../json/cars.json');
 $cars = json_decode($json_data, true);
 
-// 获取汽车 ID
+// Get the car ID from the query string
 $carId = $_GET['carId'];
 
-// 查找匹配的车辆数据
+// Initialize the selected car variable
 $selectedCar = null;
+
+// Find the car data that matches the provided car ID
 foreach ($cars as $car) {
     if ($car['id'] === $carId) {
         $selectedCar = $car;
@@ -15,7 +17,7 @@ foreach ($cars as $car) {
     }
 }
 
-// 如果找到匹配的车辆数据
+// If a matching car is found, output its quantity
 if ($selectedCar !== null) {
     echo $selectedCar['quantity'];
 } else {

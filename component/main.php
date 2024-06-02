@@ -3,6 +3,7 @@
 
 <head>
     <style>
+        /* Grid container styles */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -10,6 +11,7 @@
             border-radius: 8px;
         }
 
+        /* Grid item styles */
         .grid-item {
             border: 1px solid #ccc;
             padding: 10px;
@@ -17,31 +19,37 @@
             background-color: cadetblue;
         }
 
+        /* Product image styles */
         .product-image {
             width: 200px;
             height: 150px;
         }
 
+        /* Page container styles */
         .page-container {
             text-align: center;
             margin-top: 20px;
         }
 
+        /* Page image styles */
         .page-image {
             width: 800px;
             height: 550px;
         }
 
+        /* Text styles */
         .text {
             margin-top: 20px;
             font-size: 24px;
             font-family: Arial, sans-serif;
         }
 
+        /* Grid item hover effect */
         .grid-item:hover {
             background-color: #ccc;
         }
 
+        /* Rent button styles */
         .rent-button {
             background-color: #4CAF50;
             color: white;
@@ -52,9 +60,10 @@
             margin-top: 10px;
         }
 
+        /* Disabled rent button styles */
         .rent-button:disabled {
-            background-color: #ccc;
-            color: #666;
+            background-color: #FF0000;
+            color: #FFFFFF;
             cursor: not-allowed;
         }
     </style>
@@ -62,8 +71,10 @@
 
 <body>
     <?php
+    // Function to generate a grid item for a product
     function generateGridItem($product, $idRange)
     {
+        // Check if the product ID is within the specified range
         if ($product['id'] >= $idRange[0] && $product['id'] <= $idRange[1]) {
             echo '<div class="grid-item">';
             echo '<img class="product-image" src="../pictures/' . $product['id'] . '.jpg" alt="' . $product['id'] . '">';
@@ -81,12 +92,15 @@
         }
     }
 
+    // Load product data from JSON file
     $jsonData = file_get_contents('../json/cars.json');
     $products = json_decode($jsonData, true);
 
     echo '<div class="grid-container">';
+    // Check if the 'info' parameter is set in the URL
     if (isset($_GET['info'])) {
         $fruitId = $_GET['info'];
+        // Set the ID range based on the 'info' parameter value
         switch ($fruitId) {
             case 'cars_info_1':
                 $idRange = [6, 10];
@@ -116,13 +130,15 @@
                 $idRange = [31, 35];
                 break;
             default:
-                $idRange = [0, 0]; // 无效的ID范围
+                $idRange = [0, 0]; // Invalid ID range
         }
 
+        // Generate grid items for products within the specified ID range
         foreach ($products as $product) {
             generateGridItem($product, $idRange);
         }
     } else {
+        // Display the cover page
         echo '<div class="page-container">';
         echo '<img class="page-image" src="../pictures/cover.webp">';
         echo '<p class="text">Choose Your Motor Now</p>';
@@ -132,10 +148,12 @@
     ?>
 
     <script>
+        // Function to handle the "Rent" button click
         function goToRent(id, number) {
             console.log(number);
             var valueToPass = id;
 
+            // Send an AJAX request to check for uncompleted orders
             var xhrCheck = new XMLHttpRequest();
             xhrCheck.open('GET', '../controller/check_uncompleted.php', true);
             xhrCheck.onreadystatechange = function() {
@@ -144,7 +162,7 @@
 
                     if (number > 0) {
                         console.log("....................");
-                        // 发送第一个 AJAX 请求
+                        // Send the first AJAX request to save the uncompleted order
                         var xhr1 = new XMLHttpRequest();
                         xhr1.open('POST', '../controller/save_uncompleted.php', true);
                         xhr1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -153,7 +171,7 @@
                             if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
                                 console.log(xhr1.responseText);
 
-                                // 发送第二个 AJAX 请求
+                                // Send the second AJAX request to update the product quantity
                                 var xhr2 = new XMLHttpRequest();
                                 xhr2.open('POST', '../controller/update_quantity.php', true);
                                 xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -161,6 +179,7 @@
                                 xhr2.onreadystatechange = function() {
                                     if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
                                         console.log(xhr2.responseText);
+                                        // Redirect to the cart page with the selected product ID
                                         parent.parent.document.getElementById("indexPanel").src = "../page/cart.php?carId=" + valueToPass;
                                     }
                                 };

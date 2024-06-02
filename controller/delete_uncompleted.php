@@ -1,9 +1,9 @@
 <?php
 $uncompleted_file = '../json/uncompleted.json';
 
-// 检查文件是否存在
+// Check if the file exists
 if (file_exists($uncompleted_file)) {
-    // 删除文件内容
+    // Delete the file content
     file_put_contents($uncompleted_file, '');
     echo 'Content deleted from uncompleted.json';
 } else {

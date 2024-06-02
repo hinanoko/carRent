@@ -3,6 +3,7 @@
 
 <head>
     <style>
+        /* Grid container styles */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -10,6 +11,7 @@
             border-radius: 8px;
         }
 
+        /* Grid item styles */
         .grid-item {
             border: 1px solid #ccc;
             padding: 10px;
@@ -17,21 +19,25 @@
             background-color: cadetblue;
         }
 
+        /* Product image styles */
         .product-image {
             width: 200px;
             height: 150px;
         }
 
+        /* Text styles */
         .text {
             margin-top: 20px;
             font-size: 24px;
             font-family: Arial, sans-serif;
         }
 
+        /* Grid item hover effect */
         .grid-item:hover {
             background-color: #ccc;
         }
 
+        /* Rent button styles */
         .rent-button {
             background-color: #4CAF50;
             color: white;
@@ -42,9 +48,10 @@
             margin-top: 10px;
         }
 
+        /* Disabled rent button styles */
         .rent-button:disabled {
-            background-color: #ccc;
-            color: #666;
+            background-color: #FF0000;
+            color: #FFFFFF;
             cursor: not-allowed;
         }
     </style>
@@ -52,15 +59,21 @@
 
 <body>
     <?php
+    // Check if the 'results' parameter is set in the URL
     if (isset($_GET['results'])) {
+        // Decode the JSON data from the 'results' parameter
         $results = json_decode($_GET['results'], true);
+        // Check if the results are random (count is 5 and 'query' parameter is not set)
         $isRandomResults = count($results) === 5 && !isset($_GET['query']);
     ?>
         <?php if ($isRandomResults) : ?>
+            <!-- Display a message for random recommended options -->
             <div class="text">No matching options, here are 5 recommended options:</div>
         <?php endif; ?>
+        <!-- Grid container for displaying search results -->
         <div class="grid-container">
             <?php
+            // Loop through the search results
             foreach ($results as $product) {
                 echo '<div class="grid-item">';
                 echo '<img class="product-image" src="../pictures/' . $product['id'] . '.jpg" alt="' . $product['id'] . '">';
@@ -80,15 +93,18 @@
         </div>
     <?php
     } else {
+        // Display a message when there are no search results
         echo '<div class="text">No search results to display.</div>';
     }
     ?>
 
     <script>
+        // Function to handle the "Rent" button click
         function goToRent(id, number) {
             console.log(number);
             var valueToPass = id;
 
+            // Send an AJAX request to check for uncompleted orders
             var xhrCheck = new XMLHttpRequest();
             xhrCheck.open('GET', '../controller/check_uncompleted.php', true);
             xhrCheck.onreadystatechange = function() {
@@ -97,6 +113,7 @@
 
                     if (number > 0) {
                         console.log("....................");
+                        // Send the first AJAX request to save the uncompleted order
                         var xhr1 = new XMLHttpRequest();
                         xhr1.open('POST', '../controller/save_uncompleted.php', true);
                         xhr1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -105,6 +122,7 @@
                             if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
                                 console.log(xhr1.responseText);
 
+                                // Send the second AJAX request to update the product quantity
                                 var xhr2 = new XMLHttpRequest();
                                 xhr2.open('POST', '../controller/update_quantity.php', true);
                                 xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -112,6 +130,7 @@
                                 xhr2.onreadystatechange = function() {
                                     if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
                                         console.log(xhr2.responseText);
+                                        // Redirect to the cart page with the selected product ID
                                         parent.parent.document.getElementById("indexPanel").src = "../page/cart.php?carId=" + valueToPass;
                                     }
                                 };

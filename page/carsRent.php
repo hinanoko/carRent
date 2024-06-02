@@ -5,6 +5,7 @@
     <script>
         function increaseTheQuan(id) {
             console.log("+" + id);
+            // Send an AJAX GET request to get the current quantity of the car
             $.ajax({
                 type: 'GET',
                 url: '../controller/get_quantity.php',
@@ -13,9 +14,12 @@
                 },
                 success: function(response) {
                     console.log(response);
+                    // Check if the response quantity is greater than 0
                     if (response > 0) {
                         currentQuantity++;
+                        // Update the quantity display on the page
                         document.getElementById('quantityDisplay').textContent = currentQuantity;
+                        // Send an AJAX POST request to increase the quantity in the cart
                         $.ajax({
                             type: 'POST',
                             url: '../controller/increase_cart.php',
@@ -29,6 +33,7 @@
                                 console.error(error);
                             }
                         });
+                        // Send an AJAX POST request to update the quantity in the inventory
                         $.ajax({
                             type: 'POST',
                             url: '../controller/update_quantity.php',
@@ -44,7 +49,7 @@
                         });
                     } else {
                         console.log("?");
-                        alert("the store don't have enough car")
+                        alert("The store doesn't have enough cars available")
                     }
                 },
                 error: function(xhr, status, error) {
@@ -57,23 +62,28 @@
 
 <body>
     <?php
+    // Start the session
     session_start();
+    // Check if the request method is POST
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $info = $_POST['info'];
+        // Display the received data
         echo "<div>Data is: " . $info . "</div>";
-        // 将$info存储到session中
+        // Store the received data in the session
         $_SESSION['info'] = $info;
     } else {
         echo "Error: Invalid request method";
     }
-    ?> < !--在页面中显示$info-->
-        <div>
-            <?php
-            // 检查session中是否有$info，并显示到页面上
-            if (isset($_SESSION['info'])) {
-                echo "Info from session: " . $_SESSION['info'];
-            }
-            ?> </div>
+    ?>
+    <!-- Display the info from the session if it exists -->
+    <div>
+        <?php
+        // Check if 'info' is set in the session and display it
+        if (isset($_SESSION['info'])) {
+            echo "Info from session: " . $_SESSION['info'];
+        }
+        ?>
+    </div>
 </body>
 
 </html>

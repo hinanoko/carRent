@@ -1,39 +1,28 @@
 <html>
-    <head>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="style/main.css">
-    </head>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style/main.css">
+</head>
 
-    <body>
-        <div class='layout'>
-            <div class="box1">
-                <iframe id="headerPanel" src="component/header.php" width="100%" height="100%" frameborder="0"></iframe>
-            </div>
-            <div class="box3">
-                <iframe id="siderPanel" src="component/sider.php" width="100%" height="100%" frameborder="0"></iframe>
-            </div>
-            <div class="box4">
-                <iframe id="mainPanel" src="component/main.php" width="100%" height="100%" frameborder="0"></iframe>
-            </div>
-            <div class="box2">
-                <iframe id="footerPanel" src="component/footer.php" width="100%" height="100%" frameborder="0"></iframe>
-            </div>
+<body>
+    <div class='layout'>
+        <!-- Header section -->
+        <div class="box1">
+            <iframe id="headerPanel" src="component/header.php" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <!-- Sidebar section -->
+        <div class="box3">
+            <iframe id="siderPanel" src="component/sider.php" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <!-- Main content section -->
+        <div class="box4">
+            <iframe id="mainPanel" src="component/main.php" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <!-- Footer section -->
+        <div class="box2">
+            <iframe id="footerPanel" src="component/footer.php" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
     </div>
 
-        <script>
-             $(document).ready(function(){
-            // 当按钮被点击时
-            $('#jumpBtn').click(function(){
-                // 发送 AJAX 请求
-                $.ajax({
-                    url: 'page/cart.php',
-                    success: function(response){
-                        var valueToPass = '这是要传递的值';
-                             window.location.href = 'page/cart.php?param=' + encodeURIComponent(valueToPass);
-                    }
-                });
-            });
-        });
-        </script>
-    </body>
+</body>
 </html>

@@ -7,7 +7,7 @@
     <style>
         p {
             color: #ffcc00;
-            /* 修改这里的颜色 */
+            /* Change the color here */
         }
     </style>
 </head>
@@ -16,23 +16,6 @@
     <div>
         <p>Copyright © 2023-2024 All Rights Reserved, anything please contact kaedewang0726@gmail.com</p>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $('#clearOrderTableBtn').click(function() {
-                $.ajax({
-                    url: '../controller/deleteAll.php',
-                    type: 'GET',
-                    success: function(response) {
-                        alert(response);
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error: ' + error);
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

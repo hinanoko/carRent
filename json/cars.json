@@ -48,7 +48,7 @@
         "fuel_type": "Gasoline",
         "mileage": "35 MPG",
         "rental_price": 55,
-        "quantity": 2,
+        "quantity": 0,
         "description": "The Toyota Yaris is a compact and efficient sedan known for its agility and affordability. With seating for up to 5 passengers, it offers a nimble driving experience. The Yaris achieves around 35 MPG, making it an ideal choice for city driving and everyday use."
     },
     {
@@ -204,7 +204,7 @@
         "fuel_type": "Gasoline",
         "mileage": "29 MPG",
         "rental_price": 62,
-        "quantity": 2,
+        "quantity": 1,
         "description": "The Nissan Rogue is a compact SUV known for its versatility and fuel efficiency. With seating for up to 5 passengers, it offers practicality and style. The Rogue achieves around 29 MPG, making it an ideal choice for urban commuting and family adventures."
     },
     {
@@ -256,7 +256,7 @@
         "fuel_type": "Gasoline",
         "mileage": "33 MPG",
         "rental_price": 58,
-        "quantity": 5,
+        "quantity": 3,
         "description": "The Nissan Kicks is a compact and efficient SUV known for its agility and style. With seating for up to 5 passengers, it offers a nimble and practical driving experience. The Kicks achieves around 33 MPG, making it an ideal choice for city commuting and weekend adventures."
     },
     {
@@ -347,7 +347,7 @@
         "fuel_type": "Gasoline",
         "mileage": "24 MPG",
         "rental_price": 55,
-        "quantity": 4,
+        "quantity": 1,
         "description": "The Toyota Highlander is a mid-size SUV that offers a roomy interior with seating for up to 7 passengers. It's a practical choice for families, with ample cargo space and a comfortable ride."
     },
     {
@@ -425,7 +425,7 @@
         "fuel_type": "Gasoline",
         "mileage": "28 MPG",
         "rental_price": 48,
-        "quantity": 1,
+        "quantity": 5,
         "description": "The Toyota Venza is a mid-size wagon that offers a sleek design and a comfortable ride. With seating for up to 5 passengers and a spacious cargo area, it's a stylish and practical choice for those who need extra versatility."
     },
     {
@@ -464,7 +464,7 @@
         "fuel_type": "Gasoline",
         "mileage": "20 MPG",
         "rental_price": 25,
-        "quantity": 4,
+        "quantity": 3,
         "description": "The Nissan Stagea is a sporty wagon that offers a unique blend of performance and practicality. With seating for up to 5 passengers and a powerful engine, it's a fun choice for those who want a versatile vehicle with a bit of excitement."
     },
     {
@@ -542,7 +542,7 @@
         "fuel_type": "Gasoline",
         "mileage": "26 MPG",
         "rental_price": 32,
-        "quantity": 0,
+        "quantity": 6,
         "description": "The Honda Stream is a compact wagon that combines a sleek design with a versatile interior. With seating for up to 5 passengers and ample cargo space, it's a stylish and practical choice for those who need extra room."
     },
     {
@@ -568,7 +568,7 @@
         "fuel_type": "Gasoline",
         "mileage": "30 MPG",
         "rental_price": 45,
-        "quantity": 5,
+        "quantity": 3,
         "description": "The Honda Accord Touring is a mid-size wagon that offers a blend of style, comfort, and practicality. With seating for up to 5 passengers and a spacious cargo area, it's a great choice for those who want a versatile and fuel-efficient vehicle."
     },
     {
